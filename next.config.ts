@@ -1,25 +1,22 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Enable Cache Components for Next.js 16
   cacheComponents: true,
 
-  // Turbopack is now the default bundler in Next.js 16
-  // File system caching for faster development (beta)
   experimental: {
-    turbopackFileSystemCacheForDev: true,
+    // Ad traffic is almost all first visits on budget Android: inline the
+    // stylesheet rather than spend a render-blocking round trip on it.
+    inlineCss: true,
   },
 
-  // Image optimization defaults updated for Next.js 16
   images: {
-    // Increased from 60s to 4 hours (14400s) in Next.js 16
-    minimumCacheTTL: 14400,
-    // Default quality set to 75 in Next.js 16
-    formats: ['image/webp'],
-    // Security: Block local IP optimization by default
-    dangerouslyAllowLocalIP: false,
-    // Maximum redirects set to 3 in Next.js 16
-    maximumRedirects: 3,
+    formats: ['image/avif', 'image/webp'], // first Accept match wins
+    // The largest source photo is 1440px wide (most are 1276px), so the
+    // default 1920/2048/3840 rungs could never return anything bigger.
+    deviceSizes: [640, 750, 828, 1080, 1280],
+    imageSizes: [96, 160, 256, 384],
+    qualities: [75],
+    minimumCacheTTL: 31_536_000, // static assets; the name changes when they do
   },
 };
 

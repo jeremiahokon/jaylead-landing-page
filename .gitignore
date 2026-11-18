@@ -41,3 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 
+
+# local browser QA
+.playwright-mcp
+
+# Local tooling (OG card renderer); not part of the deployed site
+scripts/

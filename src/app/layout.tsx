@@ -1,163 +1,90 @@
+/**
+ * Fonts, site-wide metadata and the analytics island.
+ *
+ * Three woff2 files, 30 KB together, copied from the main site: Bespoke Slab
+ * roman and italic for display (its heavy slab italic matches the Jaylead
+ * wordmark) and Lexend for text. Each carries a drawn-in naira sign.
+ */
 import localFont from 'next/font/local';
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
-import Providers from '@/components/providers';
+import { Analytics } from '@/components/analytics';
+
+import { siteKeywords, siteUrl } from '@/lib/site';
+
+import { seo } from '@/data/palm-grove';
 
 import './globals.css';
-import '../../public/custom-icons.css';
 
-const inter = localFont({
+const slab = localFont({
   src: [
+    { path: '../fonts/bespoke-slab.woff2', weight: '700', style: 'normal' },
     {
-      path: '../../public/fonts/inter/Inter_18pt-Thin.ttf',
-      weight: '100',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-ExtraLight.ttf',
-      weight: '200',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-Light.ttf',
-      weight: '300',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-Medium.ttf',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-SemiBold.ttf',
-      weight: '600',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-Bold.ttf',
+      path: '../fonts/bespoke-slab-italic.woff2',
       weight: '700',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-ExtraBold.ttf',
-      weight: '800',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/inter/Inter_18pt-Black.ttf',
-      weight: '900',
-      style: 'normal',
+      style: 'italic',
     },
   ],
-  variable: '--font-inter',
+  variable: '--font-slab',
   display: 'swap',
+  adjustFontFallback: 'Times New Roman',
 });
 
-const satoshi = localFont({
-  src: [
-    {
-      path: '../../public/fonts/satoshi/Satoshi-Light.otf',
-      weight: '300',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/satoshi/Satoshi-Regular.otf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/satoshi/Satoshi-Medium.otf',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/satoshi/Satoshi-Bold.otf',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/satoshi/Satoshi-Black.otf',
-      weight: '900',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-satoshi',
+const lexend = localFont({
+  src: '../fonts/lexend.woff2',
+  weight: '400 700',
+  variable: '--font-lexend',
   display: 'swap',
-});
-
-const k2d = localFont({
-  src: [
-    {
-      path: '../../public/fonts/K2D/K2D-Thin.ttf',
-      weight: '100',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/K2D/K2D-Light.ttf',
-      weight: '300',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/K2D/K2D-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/K2D/K2D-Medium.ttf',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/K2D/K2D-SemiBold.ttf',
-      weight: '600',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/K2D/K2D-Bold.ttf',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/K2D/K2D-ExtraBold.ttf',
-      weight: '800',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-k2d',
-  display: 'swap',
+  adjustFontFallback: 'Arial',
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Dokita',
-    template: '%s | Dokita',
+  metadataBase: new URL(siteUrl),
+  title: seo.title,
+  description: seo.description,
+  keywords: siteKeywords,
+  applicationName: 'Palm Grove Estate',
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: 'Jaylead AgriEstate',
+    locale: 'en_NG',
+    title: seo.title,
+    description: seo.description,
+    url: '/',
   },
-  description: 'Dokita Admin Panel',
-  authors: [{ name: 'Dokita' }],
-  creator: 'Dokita',
-  publisher: 'Dokita',
-  icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+  twitter: {
+    card: 'summary_large_image',
+    title: seo.title,
+    description: seo.description,
   },
+  formatDetection: { telephone: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0d3924',
+  colorScheme: 'light',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${satoshi.variable} ${k2d.variable} antialiased`}
-      >
-        <Providers>{children}</Providers>
+    <html
+      lang="en-NG"
+      data-scroll-behavior="smooth"
+      className={`${slab.variable} ${lexend.variable}`}
+    >
+      <body>
+        <a
+          href="#main"
+          className="pill sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+        >
+          Skip to content
+        </a>
+        {children}
+        <Analytics />
       </body>
     </html>
   );

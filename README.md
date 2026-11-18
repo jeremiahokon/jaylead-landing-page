@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Palm Grove Estate landing page
 
-## Getting Started
+Single-page lead-generation site for **Jaylead AgriEstate's Palm Grove Estate**, served at
+`palmgrove.jayleadagro.com` (a subdomain of the main site, www.jayleadagro.com). Built from
+`Palm-Grove-Landing-Page-Content-Architecture.pdf` (the brief: LOCKED for copy, order and CTA
+behaviour) with the main site's brand: Bespoke Slab + Lexend, bone paper, logo green, the
+logo's sun as the one accent.
 
-First, run the development server:
+Next.js 16 (App Router, Cache Components), Tailwind v4, zod (+ libphonenumber-js for WhatsApp
+numbers from any country). Every route prerenders static.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Commands
+
+```sh
+pnpm dev      # local dev
+pnpm build    # production build: every route should show ○ (static)
+pnpm check    # prettier + eslint
+pnpm og       # re-render the 1200×630 share cards from scripts/opengraph-image.html
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| What                                                            | Where                                              |
+| --------------------------------------------------------------- | -------------------------------------------------- |
+| Every fact, price, FAQ and caption on the page                  | `src/data/palm-grove.ts`                           |
+| Canonical origin (metadata, JSON-LD, sitemap, robots, llms.txt) | `src/lib/site.ts`                                  |
+| Sections (Server Components, one kebab-case folder each)        | `src/components/<section>/index.tsx`               |
+| Lead form server action                                         | `src/app/actions/submit-lead.ts`                   |
+| Lead delivery: HubSpot, then Resend email, then server log      | `src/lib/leads/`                                   |
+| Meta Pixel / Google tag and conversion events                   | `src/components/analytics`, `src/lib/analytics.ts` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Client islands (the whole list): `lead-dialog`, `lead-form`, `utm-fields`, `brochure-video`,
+`reel-card/player` (Instagram pop-up), `thank-you-actions`, `analytics/whatsapp-tracker`. Everything else renders on the server, and
+every CTA works with JavaScript off (form CTAs fall back to the inline form at `#apply`).
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+| Variable                                                             | Purpose                                                               |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`                                               | Optional override of the canonical origin                             |
+| `HUBSPOT_PORTAL_ID`, `HUBSPOT_FORM_PRICING`, `HUBSPOT_FORM_BROCHURE` | Send leads to HubSpot (Forms API v3)                                  |
+| `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`                                | Fallback: email each lead to the sales inbox (comma-separate several) |
+| `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_GA_ID`                     | Ad tracking (`G-…` or `AW-…`)                                         |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Privacy Policy and Terms live at `/legal/privacy-policy` and `/legal/terms` (copied from the main
+site, adapted only where its text was untrue here).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `HANDOVER.md` for what is still needed before launch.
