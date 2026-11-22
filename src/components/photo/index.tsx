@@ -11,23 +11,19 @@ import type { Photo as PhotoData } from '@/data/palm-grove';
 export function Photo({
   photo,
   sizes,
-  className,
   frameClassName,
   preload,
-  captionTone = 'stone',
 }: {
   photo: PhotoData;
   sizes: string;
-  className?: string;
   frameClassName?: string;
   preload?: boolean;
-  captionTone?: 'stone' | 'mist';
 }) {
   return (
-    <figure className={className}>
+    <figure>
       <div
         className={cn(
-          'rounded-card relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_20%,#1f5a3d,#0d3924)]',
+          'rounded-card media-field relative overflow-hidden',
           frameClassName
         )}
         style={
@@ -46,12 +42,7 @@ export function Photo({
         />
       </div>
       {photo.caption ? (
-        <figcaption
-          className={cn(
-            'micro mt-3',
-            captionTone === 'mist' ? 'text-mist' : 'text-stone'
-          )}
-        >
+        <figcaption className="micro text-stone mt-3">
           {photo.caption}
         </figcaption>
       ) : null}

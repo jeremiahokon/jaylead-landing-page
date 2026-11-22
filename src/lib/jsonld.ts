@@ -7,7 +7,15 @@
  */
 import { absolute, mainSiteUrl, siteKeywords, siteUrl } from '@/lib/site';
 
-import { business, estate, faqs, hero, plots, seo } from '@/data/palm-grove';
+import {
+  business,
+  estate,
+  faqs,
+  founderInstagram,
+  hero,
+  plots,
+  seo,
+} from '@/data/palm-grove';
 
 const id = (fragment: string) => `${siteUrl}/#${fragment}`;
 
@@ -31,7 +39,7 @@ export function pageGraph() {
         description: seo.description,
         isPartOf: { '@id': id('website') },
         about: { '@id': id('business') },
-        primaryImageOfPage: absolute(hero.photo.src),
+        primaryImageOfPage: absolute(hero.photos[0].src),
         inLanguage: 'en-NG',
       },
       {
@@ -66,6 +74,7 @@ export function pageGraph() {
           '@type': 'Person',
           name: business.managingDirector,
           jobTitle: 'Managing Director',
+          sameAs: [founderInstagram.url],
         },
         currenciesAccepted: 'NGN',
         keywords: siteKeywords.join(', '),

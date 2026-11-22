@@ -6,7 +6,7 @@ export function JsonLd() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(pageGraph()).replaceAll('<', String.raw`<`),
+        __html: JSON.stringify(pageGraph()).replaceAll('<', String.raw`\u003c`),
       }}
     />
   );

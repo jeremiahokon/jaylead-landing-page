@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { PlayMark } from '@/components/play-mark';
+
 /**
  * Section 7's player (brief §7). Two modes, decided by the data file:
  *
@@ -69,7 +71,7 @@ export function BrochureVideo({
   };
 
   return (
-    <div className="rounded-card relative aspect-video overflow-hidden bg-[radial-gradient(120%_90%_at_30%_20%,#1f5a3d,#0d3924)]">
+    <div className="rounded-card media-field relative aspect-video overflow-hidden">
       {youTubeId ? (
         playing ? (
           <iframe
@@ -133,18 +135,5 @@ export function BrochureVideo({
         </div>
       ) : null}
     </div>
-  );
-}
-
-function PlayMark() {
-  return (
-    <span
-      aria-hidden="true"
-      className="bg-sun text-ink absolute top-1/2 left-1/2 grid size-20 -translate-1/2 place-items-center rounded-full transition-transform duration-300 group-hover:scale-110"
-    >
-      <svg viewBox="0 0 24 24" className="ml-1 size-8" fill="currentColor">
-        <path d="M7 4.5v15l13-7.5z" />
-      </svg>
-    </span>
   );
 }

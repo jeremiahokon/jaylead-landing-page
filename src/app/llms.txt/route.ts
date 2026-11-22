@@ -34,7 +34,17 @@ export function GET() {
     '',
     '## How you earn',
     ...earnings.steps.map((s) => `- ${s}`),
-    `- ${earnings.disclaimer}`,
+    '',
+    `## ${earnings.projection.headline.join(' ')}`,
+    earnings.projection.intro,
+    '',
+    `| ${Object.values(earnings.projection.columns).join(' | ')} |`,
+    '| --- | --- | ---: | ---: |',
+    ...earnings.projection.rows.map(
+      (r) => `| ${r.year} | ${r.phase} | ${r.revenue} | ${r.share} |`
+    ),
+    '',
+    earnings.projection.disclaimer,
     '',
     '## Timeline',
     ...timeline.phases.map((p) => `- ${p.phase} (${p.when}): ${p.what}`),

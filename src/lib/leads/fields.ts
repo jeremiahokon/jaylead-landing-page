@@ -13,6 +13,18 @@ export const interests = [
 
 export type Interest = (typeof interests)[number];
 
+/**
+ * What the dropdown shows. The submitted value stays the bare option above,
+ * so the server action, HubSpot and analytics are unchanged (owner, 22 Nov
+ * 2026: show the price beside each plot size).
+ */
+export const interestLabels: Record<Interest, string> = {
+  '1 Acre': '1 Acre (₦4,000,000)',
+  '1 Hectare': '1 Hectare (₦10,000,000)',
+  'Not sure yet': 'Not sure yet',
+  'Site inspection': 'Site inspection',
+};
+
 export const formKinds = ['pricing', 'brochure'] as const;
 
 export type FormKind = (typeof formKinds)[number];

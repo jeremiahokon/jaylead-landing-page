@@ -1,10 +1,14 @@
 /**
  * Fonts, site-wide metadata and the analytics island.
  *
- * Three woff2 files, 30 KB together, copied from the main site: Bespoke Slab
- * roman and italic for display (its heavy slab italic matches the Jaylead
- * wordmark) and Lexend for text. Each carries a drawn-in naira sign.
+ * The Jaylead brand type from the Figma design system ("Jayleads", frame 21):
+ * Sansita One for headers, Figtree for subtext. Sansita One is not in
+ * next/font's Google list, so its Latin woff2 (15 KB, OFL, src/fonts) is
+ * self-hosted; Figtree comes through next/font/google. Sansita One has no
+ * naira sign, so the display stack falls back to Figtree for that one glyph
+ * (globals.css, font-display).
  */
+import { Figtree } from 'next/font/google';
 import localFont from 'next/font/local';
 
 import type { Metadata, Viewport } from 'next';
@@ -17,26 +21,18 @@ import { seo } from '@/data/palm-grove';
 
 import './globals.css';
 
-const slab = localFont({
-  src: [
-    { path: '../fonts/bespoke-slab.woff2', weight: '700', style: 'normal' },
-    {
-      path: '../fonts/bespoke-slab-italic.woff2',
-      weight: '700',
-      style: 'italic',
-    },
-  ],
-  variable: '--font-slab',
+const sansita = localFont({
+  src: '../fonts/sansita-one.woff2',
+  weight: '400',
+  variable: '--font-sansita',
   display: 'swap',
   adjustFontFallback: 'Times New Roman',
 });
 
-const lexend = localFont({
-  src: '../fonts/lexend.woff2',
-  weight: '400 700',
-  variable: '--font-lexend',
+const figtree = Figtree({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-figtree',
   display: 'swap',
-  adjustFontFallback: 'Arial',
 });
 
 export const metadata: Metadata = {
@@ -63,7 +59,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0d3924',
+  themeColor: '#033726',
   colorScheme: 'light',
 };
 
@@ -74,7 +70,7 @@ export default function RootLayout({
     <html
       lang="en-NG"
       data-scroll-behavior="smooth"
-      className={`${slab.variable} ${lexend.variable}`}
+      className={`${sansita.variable} ${figtree.variable}`}
     >
       <body>
         <a

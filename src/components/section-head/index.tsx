@@ -1,37 +1,51 @@
 import { cn } from '@/lib/utils';
 
+import type { Headline } from '@/data/palm-grove';
+
 /**
- * Every section is one numbered entry in the register: a micro-caps entry
- * number over a ledger rule, then the brief's headline in slab.
+ * Every section opens on its own name: a micro-caps label over a rule, then
+ * the headline in the display face. A two-part headline sets its second
+ * part in the accent.
  */
 export function SectionHead({
-  entry,
   label,
   title,
   lede,
   id,
   className,
 }: {
-  entry: string;
   label: string;
-  title: React.ReactNode;
+  title: string | Headline;
   lede?: string;
   id: string;
   className?: string;
 }) {
   return (
     <header className={cn('max-w-4xl', className)}>
-      <p className="micro flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-current/20 pb-3 opacity-80">
-        <span className="tabular whitespace-nowrap">Entry {entry}</span>
-        <span aria-hidden="true">·</span>
-        <span>{label}</span>
+      <p className="micro border-b border-current/20 pb-3 opacity-80">
+        {label}
       </p>
       <h2 id={id} className="font-display text-display mt-6">
-        {title}
+        {typeof title === 'string' ? title : <Emphasis headline={title} />}
       </h2>
       {lede ? (
-        <p className="text-lede measure mt-5 opacity-85">{lede}</p>
+        <p className="text-lede measure mt-6 opacity-85 sm:mt-8">{lede}</p>
       ) : null}
     </header>
+  );
+}
+
+/** "Plain lead-in <accent>emphasis</accent>", for any heading level. */
+export function Emphasis({
+  headline: [plain, emphasis],
+  className,
+}: {
+  headline: Headline;
+  className?: string;
+}) {
+  return (
+    <>
+      {plain} <span className={cn('em-oil', className)}>{emphasis}</span>
+    </>
   );
 }

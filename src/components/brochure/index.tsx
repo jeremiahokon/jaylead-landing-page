@@ -12,16 +12,18 @@ import { brochure } from '@/data/palm-grove';
  */
 export function Brochure() {
   return (
-    <section aria-labelledby="brochure-title" className="py-20 sm:py-28">
+    <section
+      aria-labelledby="brochure-title"
+      className="py-24 sm:py-32 lg:py-40"
+    >
       <Container>
         <SectionHead
-          entry="05"
           label="Brochure"
           id="brochure-title"
           title={brochure.headline}
           lede={brochure.copy}
         />
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-center lg:gap-14">
+        <div className="mt-14 grid gap-12 sm:mt-20 lg:grid-cols-[1.5fr_1fr] lg:items-center lg:gap-16">
           <figure id="brochure-video">
             <BrochureVideo
               youTubeId={brochure.youTubeId}
@@ -43,11 +45,11 @@ export function Brochure() {
               {brochure.bullets.map((b, i) => (
                 <li
                   key={b}
-                  className="border-rule grid grid-cols-[2rem_1fr] items-baseline border-b pb-4"
+                  className="border-rule grid grid-cols-[2.25rem_1fr] items-center gap-x-4 border-b pb-4"
                 >
                   <span
                     aria-hidden="true"
-                    className="font-display text-oil tabular"
+                    className="num-badge shrink-0 self-center"
                   >
                     {String(i + 1).padStart(2, '0')}
                   </span>

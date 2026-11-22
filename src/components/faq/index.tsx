@@ -2,7 +2,7 @@ import { Container } from '@/components/container';
 import { CtaLink } from '@/components/cta-link';
 import { SectionHead } from '@/components/section-head';
 
-import { faqs } from '@/data/palm-grove';
+import { faqHeadline, faqs } from '@/data/palm-grove';
 
 /**
  * Section 12. Native <details> accordion (works with JS off), each answer
@@ -13,20 +13,11 @@ export function Faq() {
   return (
     <section
       aria-labelledby="faq-title"
-      className="bg-bone-deep py-20 sm:py-28"
+      className="bg-bone-deep py-24 sm:py-32 lg:py-40"
     >
-      <Container className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+      <Container className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-24">
         <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
-          <SectionHead
-            entry="10"
-            label="Questions"
-            id="faq-title"
-            title={
-              <>
-                Questions, <span className="em-oil">answered.</span>
-              </>
-            }
-          />
+          <SectionHead label="Questions" id="faq-title" title={faqHeadline} />
         </div>
         <div className="border-rule border-t">
           {faqs.map((f, i) => (
@@ -37,7 +28,7 @@ export function Faq() {
               <summary className="grid grid-cols-[2.25rem_1fr_1.5rem] items-baseline gap-2 py-6">
                 <span
                   aria-hidden="true"
-                  className="font-display text-oil tabular"
+                  className="num-badge shrink-0 self-center"
                 >
                   {String(i + 1).padStart(2, '0')}
                 </span>

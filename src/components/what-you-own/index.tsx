@@ -11,30 +11,21 @@ import { ownership } from '@/data/palm-grove';
  */
 export function WhatYouOwn() {
   return (
-    <section aria-labelledby="own-title" className="py-20 sm:py-28">
+    <section aria-labelledby="own-title" className="py-24 sm:py-32 lg:py-40">
       <Container>
         <SectionHead
-          entry="02"
           label="What you own"
           id="own-title"
-          title={
-            <>
-              This Is Not Just an Investment.{' '}
-              <span className="em-oil">It Is Land You Own.</span>
-            </>
-          }
+          title={ownership.headline}
         />
-        <ol className="border-rule mt-14 grid border-t sm:grid-cols-2">
+        <ol className="border-rule mt-14 grid border-t sm:mt-20 sm:grid-cols-2">
           {ownership.items.map((item, i) => (
             <li
               key={item.title}
               data-reveal
               className="border-rule grid grid-cols-[3.5rem_1fr] gap-x-4 border-b py-8 sm:odd:pr-10 sm:even:border-l sm:even:pl-10"
             >
-              <span
-                className="font-display text-title text-oil tabular"
-                aria-hidden="true"
-              >
+              <span className="num-badge" aria-hidden="true">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div>
@@ -44,7 +35,7 @@ export function WhatYouOwn() {
             </li>
           ))}
         </ol>
-        <div className="on-ink rounded-card mt-10 flex flex-col items-start justify-between gap-6 p-7 sm:flex-row sm:items-center sm:p-9">
+        <div className="on-ink rounded-card mt-14 flex flex-col items-start justify-between gap-6 p-7 sm:mt-20 sm:flex-row sm:items-center sm:p-9">
           <p className="font-display text-title max-w-2xl">{ownership.strip}</p>
           <CtaLink cta={ownership.cta} className="shrink-0" />
         </div>

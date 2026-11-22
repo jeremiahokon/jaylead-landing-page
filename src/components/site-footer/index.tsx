@@ -20,11 +20,11 @@ export async function SiteFooter() {
         </div>
         <div className="text-small grid gap-5 sm:grid-cols-2">
           <address className="not-italic">
-            <span className="micro text-mist block">Office</span>
+            <span className="micro text-sand block">Office</span>
             <span className="mt-2 block">{business.address.full}</span>
           </address>
           <div>
-            <span className="micro text-mist block">Contact</span>
+            <span className="micro text-sand block">Contact</span>
             <ul className="mt-2 grid gap-1">
               <li>
                 Phone / WhatsApp:{' '}
@@ -74,7 +74,7 @@ export async function SiteFooter() {
         </div>
       </div>
       <div className="border-rule-light border-t">
-        <div className="text-small text-mist mx-auto grid max-w-[88rem] gap-4 px-(--gutter) py-8 md:grid-cols-[1.4fr_1fr]">
+        <div className="text-small text-sand mx-auto grid max-w-[88rem] gap-4 px-(--gutter) py-8 md:grid-cols-[1.4fr_1fr]">
           <p>{footer.disclaimer}</p>
           <div className="md:text-right">
             <p>

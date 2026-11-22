@@ -4,15 +4,18 @@ import { Photo } from '@/components/photo';
 
 import { estate, hero } from '@/data/palm-grove';
 
+import { HeroCarousel } from './carousel';
+
 /**
- * Section 1. One promise at size, one proof (the real aerial), one primary
- * action. The secondary button is the page's only non-form CTA: a plain
- * anchor to the brochure video (brief §1).
+ * Section 1. One promise at size, one proof (the site itself, as a carousel
+ * of the owner's photos, DJI_0945 first), one primary action that goes to
+ * the pre-launch prices. The secondary button is a plain anchor to the
+ * brochure video (brief §1).
  */
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="grain overflow-hidden">
-      <Container className="grid items-center gap-10 pt-10 pb-14 sm:pt-16 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pt-20 lg:pb-20">
+    <section aria-labelledby="hero-title" className="overflow-hidden">
+      <Container className="grid items-center gap-10 pt-10 pb-14 sm:pt-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:pt-20 lg:pb-20">
         <div>
           <p
             className="micro fade-up text-stone"
@@ -48,12 +51,20 @@ export function Hero() {
             </div>
           </div>
         </div>
-        <Photo
-          photo={hero.photo}
-          sizes="(min-width: 1024px) 45vw, 100vw"
-          frameClassName="aspect-[4/3] lg:aspect-[4/5]"
+        <HeroCarousel
           className="fade-up"
-        />
+          labels={hero.photos.map((p) => p.alt.split(',')[0])}
+        >
+          {hero.photos.map((photo, i) => (
+            <Photo
+              key={photo.src}
+              photo={photo}
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              frameClassName="aspect-[4/3]"
+              preload={i === 0}
+            />
+          ))}
+        </HeroCarousel>
       </Container>
     </section>
   );

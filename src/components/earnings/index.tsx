@@ -1,7 +1,7 @@
 import { Container } from '@/components/container';
 import { CtaLink } from '@/components/cta-link';
 import { ProjectionTable } from '@/components/projection-table';
-import { SectionHead } from '@/components/section-head';
+import { Emphasis, SectionHead } from '@/components/section-head';
 
 import { earnings } from '@/data/palm-grove';
 
@@ -10,31 +10,23 @@ import { earnings } from '@/data/palm-grove';
  * oversized slab line over a bar that draws itself on scroll (CSS
  * scroll-driven animation, static where unsupported or reduced).
  *
- * The 30-year table renders only when finance's figures are in the data
- * file. Until then the section still closes on the split, the illustrative
- * line and "Get My Full Projection", so it never renders empty.
+ * Then the owner's Year 3 to Year 10 projection for 1 hectare, its
+ * disclaimer directly under the table, and "Get My Full Projection", which
+ * opens the lead form.
  */
 export function Earnings() {
-  const { projection, steps, cta, disclaimer } = earnings;
-
-  const hasProjection =
-    projection.acre.length > 0 || projection.hectare.length > 0;
+  const { headline, projection, steps, cta } = earnings;
 
   return (
     <section
       aria-labelledby="earnings-title"
-      className="overflow-hidden py-20 sm:py-28"
+      className="overflow-hidden py-24 sm:py-32 lg:py-40"
     >
       <Container>
         <SectionHead
-          entry="07"
           label="How you earn"
           id="earnings-title"
-          title={
-            <>
-              Your Share of <span className="em-oil">Every Harvest.</span>
-            </>
-          }
+          title={headline}
         />
 
         <figure
@@ -69,7 +61,7 @@ export function Earnings() {
           </figcaption>
         </figure>
 
-        <ol className="mt-14 grid gap-6 md:grid-cols-3">
+        <ol className="mt-14 grid gap-6 sm:mt-20 md:grid-cols-3">
           {steps.map((s, i) => (
             <li
               key={s}
@@ -81,40 +73,29 @@ export function Earnings() {
           ))}
         </ol>
 
-        <div className="bg-bone-deep rounded-card mt-16 grid gap-8 p-7 sm:p-10 lg:grid-cols-[1fr_1.3fr] lg:gap-14">
-          <div>
-            <h3 className="font-display text-title">
-              30-year revenue projection
-            </h3>
-            <p className="text-stone mt-3">
-              {hasProjection
-                ? 'Per 1 acre and per 1 hectare, with your 70% share beside total revenue.'
-                : 'The year-by-year projection for 1 acre and 1 hectare, with your 70% share beside total revenue, is sent with your plot details.'}
-            </p>
-            <CtaLink cta={cta} className="mt-7" />
+        <div className="ring-rule rounded-card mt-20 p-6 ring-1 sm:mt-28 sm:p-12 lg:p-16">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-14">
+            <div>
+              <h3 className="font-display text-figure max-w-3xl">
+                <Emphasis headline={projection.headline} />
+              </h3>
+              <p className="text-lede text-stone measure mt-5">
+                {projection.intro}
+              </p>
+            </div>
+            <CtaLink cta={cta} className="hidden lg:inline-flex" />
           </div>
-          <div>
-            {hasProjection ? (
-              <ProjectionTable
-                acre={projection.acre}
-                hectare={projection.hectare}
-                visibleRows={projection.visibleRows}
-              />
-            ) : null}
-            <p className="text-small text-stone mt-6 italic first:mt-0">
-              {disclaimer}
-            </p>
-            {projection.assumptions.length > 0 ? (
-              <>
-                <p className="micro text-stone mt-6">Key assumptions</p>
-                <ul className="text-small text-stone mt-3 grid list-disc gap-1.5 pl-5">
-                  {projection.assumptions.map((a) => (
-                    <li key={a}>{a}</li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
+          <div className="mt-10">
+            <ProjectionTable
+              rows={projection.rows}
+              columns={projection.columns}
+              caption={`${projection.headline.join(' ')}. ${projection.intro}`}
+            />
           </div>
+          <p className="text-small text-stone measure mt-6 italic">
+            {projection.disclaimer}
+          </p>
+          <CtaLink cta={cta} className="mt-8 w-full sm:w-auto lg:hidden" />
         </div>
       </Container>
     </section>

@@ -20,7 +20,7 @@ export function ReelCard({ reel, sizes }: { reel: Reel; sizes: string }) {
         label={reel.title}
         permalink={permalink}
         embedUrl={`${permalink}embed/`}
-        className="group rounded-card relative block aspect-[4/5] overflow-hidden bg-[radial-gradient(120%_90%_at_30%_20%,#1f5a3d,#0d3924)]"
+        className="group rounded-card media-field relative block aspect-[4/5] overflow-hidden"
       >
         <Image
           src={reel.poster.src}

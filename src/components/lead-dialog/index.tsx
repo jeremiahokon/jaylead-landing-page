@@ -11,11 +11,11 @@ type Open = { kind: FormKind; interest?: Interest; n: number };
 const copy: Record<FormKind, { title: string; line: string }> = {
   pricing: {
     title: 'Get Pricing & Plot Details',
-    line: 'Tell us where to send your plot prices, payment plan and details.',
+    line: 'Leave your details and an advisor will send the plot prices and payment plan to your WhatsApp.',
   },
   brochure: {
     title: 'Download the Brochure',
-    line: 'Plot prices and payment plans, estate phases and timeline, your legal documents and revenue split.',
+    line: 'Prices, payment plans, the estate timeline, your documents and how the 70/30 split works, in one PDF.',
   },
 };
 
@@ -82,39 +82,40 @@ export function LeadDialog() {
       }}
     >
       {open ? (
-        <div className="p-6 sm:p-9">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <p className="micro text-stone">Palm Grove Estate · Osun State</p>
-              <h2
-                id="lead-dialog-title"
-                className="font-display text-title mt-3"
+        <>
+          <header className="border-rule flex-none border-b px-6 pt-6 pb-5 sm:px-9 sm:pt-8">
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <p className="micro text-stone">
+                  Palm Grove Estate · Osun State
+                </p>
+                <h2
+                  id="lead-dialog-title"
+                  className="font-display text-title mt-3"
+                >
+                  {copy[open.kind].title}
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={close}
+                className="hover:bg-ink/10 -mt-1 -mr-2 grid size-11 shrink-0 place-items-center rounded-full text-2xl leading-none transition-colors"
               >
-                {copy[open.kind].title}
-              </h2>
+                <span aria-hidden="true">×</span>
+                <span className="sr-only">Close</span>
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={close}
-              className="hover:bg-ink/10 -mt-1 -mr-2 grid size-11 shrink-0 place-items-center rounded-full text-2xl leading-none transition-colors"
-            >
-              <span aria-hidden="true">×</span>
-              <span className="sr-only">Close</span>
-            </button>
-          </div>
-          <p className="text-small text-stone mt-3">{copy[open.kind].line}</p>
-          <div className="mt-7">
-            <LeadForm
-              key={open.n}
-              kind={open.kind}
-              interest={open.interest}
-              idPrefix="dialog"
-            />
-          </div>
-          <p className="text-small text-stone mt-5 text-center">
-            No spam. An advisor will contact you shortly.
-          </p>
-        </div>
+            <p className="text-small text-stone mt-3">{copy[open.kind].line}</p>
+          </header>
+          <LeadForm
+            key={open.n}
+            kind={open.kind}
+            interest={open.interest}
+            idPrefix="dialog"
+            layout="dialog"
+            footerNote="No spam. One advisor, one conversation about your plot."
+          />
+        </>
       ) : null}
     </dialog>
   );
