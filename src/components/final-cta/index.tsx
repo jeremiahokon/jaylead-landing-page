@@ -1,6 +1,7 @@
 import { Container } from '@/components/container';
 import { WhatsAppIcon } from '@/components/icons';
 import { LeadForm } from '@/components/lead-form';
+import { Emphasis } from '@/components/section-head';
 
 import { buildWhatsAppLink } from '@/lib/whatsapp';
 
@@ -15,17 +16,20 @@ export function FinalCta() {
     <section
       id="apply"
       aria-labelledby="apply-title"
-      className="on-ink grain py-20 sm:py-28"
+      className="on-ink grain py-24 sm:py-32 lg:py-40"
     >
       <Container className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
         <div>
-          <p className="micro border-rule-light text-mist border-b pb-3">
-            Entry 11 · Your plot
+          <p className="micro border-rule-light text-sand border-b pb-3">
+            Your plot
           </p>
           <h2 id="apply-title" className="font-display text-hero mt-6">
-            Your Money Can Farm <span className="em-oil">While You Sleep.</span>
+            <Emphasis
+              headline={finalCta.headline}
+              className="whitespace-nowrap"
+            />
           </h2>
-          <p className="text-lede text-sand mt-6">{finalCta.line}</p>
+          <p className="text-lede text-sand mt-8">{finalCta.line}</p>
         </div>
         <div className="bg-bone/[0.06] ring-rule-light rounded-card p-6 ring-1 sm:p-9">
           <LeadForm kind="pricing" idPrefix="inline" tone="ink" />

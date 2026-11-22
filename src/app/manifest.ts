@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: estate.name,
     start_url: '/',
     display: 'browser',
-    background_color: '#f1ecdf',
-    theme_color: '#0d3924',
+    background_color: '#fbfcfb',
+    theme_color: '#033726',
     icons: [
       {
         src: '/brand/jaylead-mark-192.png',

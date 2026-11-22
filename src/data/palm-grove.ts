@@ -6,9 +6,10 @@
  * verbatim from it. Where the main site (www.jayleadagro.com) disagrees, the
  * brief wins and the conflict is listed in HANDOVER.md.
  *
- * Photos are Jaylead's own material, copied from the main site repo
- * (../jaylead.ng/public). None of it is confirmed as Palm Grove Estate, so
- * captions say "Jaylead farmland", exactly as the main site does. No stock.
+ * Photos: the Palm Grove Estate site in Osun State, from Jaylead's own drone
+ * and phone (Drive folder "Site- planting", shot 20 to 29 October 2026,
+ * supplied by the owner 22 Nov 2026). Videos: the owner's seedling clips,
+ * sound removed, and Jaylead's own Instagram reels. No stock.
  */
 import type { Interest } from '@/lib/leads/fields';
 
@@ -20,13 +21,33 @@ export type Photo = {
   caption?: string;
 };
 
-/** What a CTA does. Every CTA but one opens a form (brief §2). */
+/** One of the owner's site photos (all 1600 x 900, shot October 2026). */
+function site(n: string, alt: string): Photo {
+  return {
+    src: `/images/site/dji-${n}.webp`,
+    alt,
+    width: 1600,
+    height: 900,
+    caption: 'Palm Grove Estate site, Osun State, October 2026',
+  };
+}
+
+/**
+ * What a CTA does. `pricing` and `brochure` open a form. `section` scrolls to
+ * the pre-launch prices first (owner, 22 Nov 2026: "Get Pricing & Plot
+ * Details" goes to the offer, and the form is filled from there, so only
+ * people who have seen the price send a lead).
+ */
 export type CtaAction =
   | { kind: 'pricing'; interest?: Interest }
+  | { kind: 'section'; target: 'pricing' }
   | { kind: 'brochure' }
   | { kind: 'whatsapp' };
 
 export type Cta = { label: string; action: CtaAction };
+
+/** A display headline: the plain lead-in, then the part set in the accent. */
+export type Headline = readonly [plain: string, emphasis: string];
 
 /* ── Business ──────────────────────────────────────────────────────── */
 
@@ -59,6 +80,12 @@ export const business = {
   managingDirector: 'Adetunji Jacob Ogunyemi',
 } as const;
 
+/** The founder's own Instagram (followed by @jaylead_ng as "Adetunji Jacob Ogunyemi"). */
+export const founderInstagram = {
+  handle: '@jaylead5',
+  url: 'https://www.instagram.com/jaylead5/',
+} as const;
+
 export const estate = {
   name: 'Palm Grove Estate',
   location: 'Osun State',
@@ -73,25 +100,60 @@ export const whatsappMessage =
 export const hero = {
   headline: ['Own the Land.', 'Grow the Wealth.', 'Build the Legacy.'],
   subheadline:
-    'Own titled oil palm farmland in Palm Grove Estate, Osun State. Jaylead plants and manages it, and 70% of the harvest revenue goes to land buyers.',
+    'Buy titled oil palm farmland at Palm Grove Estate in Osun State. Jaylead plants it, farms it and sells the oil, and you receive 70% of the harvest revenue.',
   priceHook:
-    'Pre-launch offer: from ₦4,000,000 per acre, with instalment payment available.',
+    'Pre-launch price: ₦4,000,000 an acre, payable in instalments over 3 or 6 months.',
   primary: {
     label: 'Get Pricing & Plot Details',
-    action: { kind: 'pricing' },
+    action: { kind: 'section', target: 'pricing' },
   } satisfies Cta,
-  secondaryLabel: 'Watch the Brochure Video',
+  secondaryLabel: 'Watch: Palm Grove Explained',
   /*
-   * Brief asks for the planted first batch. Not supplied yet: this is the
-   * main site's own drone still, captioned as the main site captions it.
+   * The site itself, in the owner's order: DJI_0945 first (it is also the
+   * still the page shows without JavaScript), then the rest as a carousel.
    */
-  photo: {
-    src: '/images/aerial-fields.webp',
-    alt: 'Aerial view over Jaylead farmland: a patchwork of cultivated plots, crop rows and tree cover under a pale sky',
-    width: 1276,
-    height: 718,
-    caption: 'Jaylead farmland from the air, September 2026',
-  } satisfies Photo,
+  photos: [
+    site(
+      '0945',
+      'The Palm Grove Estate billboard, "Plant Once. Harvest for Decades.", standing in a cleared field beside banana plants, with a Jaylead staff member in a hi-vis vest'
+    ),
+    site(
+      '0946',
+      'A Jaylead staff member in a hi-vis vest beside the Palm Grove Estate billboard, with banana plants behind'
+    ),
+    site(
+      '0964',
+      'Drone view looking down on a cleared plot of the estate, edged by green bush, with a survey marker in one corner'
+    ),
+    site(
+      '0965',
+      'Drone view of a large cleared plot at Palm Grove Estate, ringed by thick green vegetation'
+    ),
+    site(
+      '0967',
+      'Drone view of cleared ground opening into the bush along a footpath, with markers on the plot'
+    ),
+    site(
+      '0969',
+      'Drone view down onto a cleared, pegged plot with a white survey post, bordered by banana plants and bush'
+    ),
+    site(
+      '0976',
+      'Drone view over cleared land at Palm Grove Estate, with the estate billboard and a staff member standing in front of it'
+    ),
+    site(
+      '0970',
+      'Drone view of a cleared strip running between banana plants, with a white survey post'
+    ),
+    site(
+      '0971',
+      'The Palm Grove Estate billboard on cleared land against green hills and a blue sky'
+    ),
+    site(
+      '0972',
+      'The Palm Grove Estate billboard on its posts in the middle of freshly cleared land'
+    ),
+  ] satisfies Photo[] as Photo[],
 };
 
 /* ── 2 Trust strip ─────────────────────────────────────────────────── */
@@ -108,7 +170,7 @@ export const trustBadges = [
 
 export const opportunity = {
   headline: 'Nigeria Imports What It Should Be Growing.',
-  copy: 'Nigeria needs 2.6 million tonnes of palm oil every year but produces only 1.5 million tonnes. The 1.1 million-tonne shortfall costs the country over ₦1 trillion in foreign exchange annually. Palm Grove Estate puts your money into the ground to help close that gap.',
+  copy: 'Nigeria uses 2.6 million tonnes of palm oil a year and grows 1.5 million. The 1.1 million tonnes it is short are imported, at a cost of over ₦1 trillion in foreign exchange every year. Palm Grove Estate is planted to supply that gap, and your plot is part of it.',
   stats: [
     { figure: '2.6M', unit: 'tonnes', label: 'needed per year' },
     { figure: '1.5M', unit: 'tonnes', label: 'produced locally' },
@@ -117,30 +179,30 @@ export const opportunity = {
   ],
   cta: {
     label: 'Get Pricing & Plot Details',
-    action: { kind: 'pricing' },
+    action: { kind: 'section', target: 'pricing' },
   } satisfies Cta,
 };
 
 /* ── 4 What you own ────────────────────────────────────────────────── */
 
 export const ownership = {
-  headline: 'This Is Not Just an Investment. It Is Land You Own.',
+  headline: ['You own the land and', 'every tree on it.'] as Headline,
   items: [
     {
       title: 'Titled land',
-      line: 'Your own plot in the Palm Grove Estate, Osun State.',
+      line: 'A surveyed plot at Palm Grove Estate, Osun State, backed by a Deed of Assignment.',
     },
     {
       title: 'The palm trees on it',
-      line: 'Improved Supergene high-yield hybrid palms.',
+      line: 'Improved Supergene hybrid palms bred for high yield: 60 on an acre, 150 on a hectare.',
     },
     {
       title: 'A share of the harvest',
-      line: '70% of revenue goes to land buyers every year from first harvest.',
+      line: '70% of the harvest revenue, paid to you every year from the first harvest.',
     },
     {
       title: 'Freedom to sell, transfer or inherit',
-      line: 'Your plot is yours to pass on.',
+      line: 'Sell it, transfer it or leave it to your children. It stays yours.',
     },
   ],
   strip:
@@ -163,57 +225,68 @@ export type Reel = {
   poster: Photo;
 };
 
-export type SeedlingMedia = Reel | { kind: 'photo'; photo: Photo };
-
 export const seedlings = {
-  headline: 'Healthy Seedlings. A Strong Start.',
-  copy: 'Every tree in Palm Grove Estate begins as an improved Supergene high-yield hybrid seedling. The first batch has already been planted.',
+  headline: ['Every tree starts as a', 'Supergene seedling.'] as Headline,
+  copy: 'Palm Grove Estate is planted with improved Supergene hybrid seedlings, the variety commercial growers choose for yield and oil content. The first batch is already in the ground.',
   /*
-   * Brief §5 wants 3 to 4 real photos: nursery, seedling close-up,
-   * transplanting, the first planted batch. None supplied yet (see
-   * HANDOVER.md). Until then the rail mixes two of Jaylead's own Instagram
-   * reels (tap to play in a pop-up, the main site's format) with a dated
-   * field photo. Add real seedling photos to the front of this array.
-   * Reel facts (title, duration, date) are from ../jaylead.ng/src/data/instagram.ts.
+   * Owner's picks (22 Nov 2026): IMG_4317 and IMG_4301, then four reels from
+   * @jaylead_ng. Reel facts from the posts themselves; posters are frames
+   * from each reel (the covers Instagram chose are not farm footage).
    */
   media: [
     {
       kind: 'reel',
-      shortcode: 'DdJx-XQqgvp',
-      title: 'Soil testing before planting',
-      duration: '0:04',
-      date: '11 September 2026',
+      shortcode: 'DewLWTGuVLV',
+      title: 'Meet the Supergene seedlings',
+      duration: '0:56',
+      date: '21 October 2026',
       poster: {
-        src: '/images/DdJx-XQqgvp.webp',
-        alt: 'A soil tester pushed into dark farm soil among young plants',
+        src: '/images/DewLWTGuVLV.webp',
+        alt: 'A Jaylead field worker in a hi-vis vest holding up a young Supergene oil palm seedling in the nursery',
         width: 720,
         height: 900,
       },
     },
     {
       kind: 'reel',
-      shortcode: 'DdD4lwIummX',
-      title: 'On site: getting the land ready',
-      duration: '0:15',
-      date: '9 September 2026',
+      shortcode: 'DeR5LZmquXa',
+      title: 'Small seedlings, big possibilities',
+      duration: '0:11',
+      date: '9 October 2026',
       poster: {
-        src: '/images/DdD4lwIummX.webp',
-        alt: 'The Managing Director in a hi-vis vest on overgrown farmland',
-        width: 480,
-        height: 600,
+        src: '/images/DeR5LZmquXa.webp',
+        alt: 'Two workers in hi-vis vests tending rows of young oil palm seedlings in the nursery',
+        width: 720,
+        height: 900,
       },
     },
     {
-      kind: 'photo',
-      photo: {
-        src: '/images/aerial-perimeter.webp',
-        alt: 'Drone view of open farmland with a long white perimeter fence and site buildings',
-        width: 1276,
-        height: 718,
-        caption: 'Jaylead farmland and perimeter fence, September 2026',
+      kind: 'reel',
+      shortcode: 'DfPXw4nOE5E',
+      title: 'The first batch of planting',
+      duration: '0:34',
+      date: '2 November 2026',
+      poster: {
+        src: '/images/DfPXw4nOE5E.webp',
+        alt: 'A newly planted oil palm seedling in fresh soil at Palm Grove Estate, captioned "first batch of planting"',
+        width: 720,
+        height: 900,
       },
     },
-  ] satisfies SeedlingMedia[] as SeedlingMedia[],
+    {
+      kind: 'reel',
+      shortcode: 'Dfo0h6Fqp4y',
+      title: 'Planting is underway in Osun',
+      duration: '0:32',
+      date: '12 November 2026',
+      poster: {
+        src: '/images/Dfo0h6Fqp4y.webp',
+        alt: 'A worker watering a freshly planted oil palm seedling from a green bowl',
+        width: 720,
+        height: 900,
+      },
+    },
+  ] satisfies Reel[] as Reel[],
   cta: {
     label: 'Book a Site Inspection',
     action: { kind: 'pricing', interest: 'Site inspection' },
@@ -255,7 +328,7 @@ export const plots: Plot[] = [
 
 export const pricing = {
   eyebrow: 'Pre-launch offer',
-  headline: 'Pre-Launch Plot Prices.',
+  headline: ['Pre-Launch', 'Plot Prices.'] as Headline,
   includes: [
     'Titled land',
     'Palm trees planted',
@@ -264,13 +337,24 @@ export const pricing = {
     'No annual or maintenance fees',
   ],
   ctaLabel: 'Reserve This Plot',
+  /*
+   * Every "Get Pricing & Plot Details" lands here, so the section also
+   * catches the visitor who has not chosen a size yet.
+   */
+  undecided: {
+    line: 'Not sure whether an acre or a hectare suits you? Talk it through with an advisor first.',
+    cta: {
+      label: 'Talk to an Advisor',
+      action: { kind: 'pricing', interest: 'Not sure yet' },
+    } satisfies Cta,
+  },
 };
 
 /* ── 7 Brochure ────────────────────────────────────────────────────── */
 
 export const brochure = {
-  headline: 'Palm Grove Estate Brochure Video',
-  copy: 'Watch the video to see the whole Palm Grove Estate brochure explained: what you own, the prices, the timeline, how the 70/30 revenue split works, and your legal documents.',
+  headline: 'Palm Grove Estate, explained in one video.',
+  copy: 'One video walks through the whole brochure: what you own, the prices, the timeline, how the 70/30 split works and the documents you receive.',
   bullets: [
     'Plot prices and payment plans',
     'Estate phases and timeline',
@@ -282,7 +366,7 @@ export const brochure = {
   } satisfies Cta,
   endOverlay: {
     label: 'Get Pricing & Plot Details',
-    action: { kind: 'pricing' },
+    action: { kind: 'section', target: 'pricing' },
   } satisfies Cta,
   /*
    * Not supplied yet (HANDOVER.md). Set the YouTube video ID (captions on)
@@ -307,7 +391,7 @@ export const brochureWhatsappMessage =
 /* ── 8 Timeline ────────────────────────────────────────────────────── */
 
 export const timeline = {
-  headline: 'From Deposit to Harvest: What Happens and When.',
+  headline: ['From deposit to first harvest,', 'step by step.'] as Headline,
   phases: [
     {
       phase: 'Phase 1',
@@ -339,33 +423,92 @@ export const timeline = {
 /* ── 9 Earnings + projection ───────────────────────────────────────── */
 
 export type ProjectionRow = {
-  /** "Year 3", or a group label like "Years 5 to 7". */
-  years: string;
-  /** Exactly as supplied by finance. Strings, so nothing is ever reformatted. */
-  totalRevenue: string;
-  buyerShare: string;
+  year: string;
+  phase: 'First Fruiting' | 'Yield Ramp-Up' | 'Peak Production';
+  /** Exactly as supplied by the owner. Strings, so nothing is reformatted. */
+  revenue: string;
+  share: string;
 };
 
 export const earnings = {
-  headline: 'Your Share of Every Harvest.',
+  headline: ['How you earn', 'from your plot.'] as Headline,
   steps: [
-    'Palm fruit is harvested and processed into Crude Palm Oil (CPO), which is sold commercially.',
-    '70% of the revenue is distributed to land buyers.',
-    '30% is retained by Jaylead to manage the estate.',
+    'The palm fruit is harvested, pressed into Crude Palm Oil (CPO) and sold commercially.',
+    '70% of the revenue is paid out to land buyers.',
+    'Jaylead keeps 30% to run and manage the estate.',
   ],
-  disclaimer:
-    'Illustrative projection based on stated assumptions. Actual results depend on farm production and Crude Palm Oil market prices.',
   /*
-   * Brief §9: the 30-year CPO projection from the Jaylead finance document.
-   * NOT SUPPLIED YET. Paste rows exactly as given: do not round or
-   * recalculate. The table, toggle and assumptions render once rows exist.
+   * Owner, 22 Nov 2026, verbatim. Workings in
+   * Palm-Grove-Revenue-Projection-Year3-10.xlsx: CPO 2.24 t/ha in Year 3,
+   * 30/55/75% of the 12.5 t/ha full yield in Years 4 to 6, full from Year 7,
+   * at ₦1,400,000 a tonne; your share is 70% of revenue. Per hectare only:
+   * the per-acre version is still open (HANDOVER.md).
    */
   projection: {
-    acre: [] as ProjectionRow[],
-    hectare: [] as ProjectionRow[],
-    /** First N rows shown before "See all years" on small screens. */
-    visibleRows: 4,
-    assumptions: [] as string[],
+    headline: [
+      'Your Projected Harvest Income:',
+      'Year 3 to Year 10',
+    ] as Headline,
+    intro:
+      'Projection for 1 hectare (150 palm trees) at ₦1,400,000 per tonne of Crude Palm Oil. You receive 70% of the revenue.',
+    columns: {
+      year: 'Year',
+      phase: 'Phase',
+      revenue: 'Price ₦1.4M/tonne (Revenue)',
+      share: 'Your 70% Share',
+    },
+    rows: [
+      {
+        year: '3',
+        phase: 'First Fruiting',
+        revenue: '₦3,136,000',
+        share: '₦2,195,200',
+      },
+      {
+        year: '4',
+        phase: 'Yield Ramp-Up',
+        revenue: '₦5,250,000',
+        share: '₦3,675,000',
+      },
+      {
+        year: '5',
+        phase: 'Yield Ramp-Up',
+        revenue: '₦9,625,000',
+        share: '₦6,737,500',
+      },
+      {
+        year: '6',
+        phase: 'Yield Ramp-Up',
+        revenue: '₦13,125,000',
+        share: '₦9,187,500',
+      },
+      {
+        year: '7',
+        phase: 'Peak Production',
+        revenue: '₦17,500,000',
+        share: '₦12,250,000',
+      },
+      {
+        year: '8',
+        phase: 'Peak Production',
+        revenue: '₦17,500,000',
+        share: '₦12,250,000',
+      },
+      {
+        year: '9',
+        phase: 'Peak Production',
+        revenue: '₦17,500,000',
+        share: '₦12,250,000',
+      },
+      {
+        year: '10',
+        phase: 'Peak Production',
+        revenue: '₦17,500,000',
+        share: '₦12,250,000',
+      },
+    ] satisfies ProjectionRow[] as ProjectionRow[],
+    disclaimer:
+      'Illustrative projection per hectare, using the high scenario of ₦1,400,000 per tonne. Actual results depend on farm production and Crude Palm Oil market prices.',
   },
   cta: {
     label: 'Get My Full Projection',
@@ -376,7 +519,7 @@ export const earnings = {
 /* ── 10 Legal + safety ─────────────────────────────────────────────── */
 
 export const legal = {
-  headline: 'Documented. Insured. Open to Audit.',
+  headline: ['Every plot comes with', 'papers you can check.'] as Headline,
   documents: [
     'Deed of Assignment',
     'Registered Survey',
@@ -402,7 +545,7 @@ export const legal = {
     },
   ],
   reporting:
-    'NAIC farm asset insurance plus private insurance. Quarterly reports from day one. Audited annual statements from first harvest. Independent audits welcome, including your own personal auditor.',
+    'The farm is insured through NAIC and a private insurer. You get a report every quarter from day one and an audited statement every year from the first harvest, and you are welcome to send your own auditor.',
   cta: {
     label: 'Book a Site Inspection',
     action: { kind: 'pricing', interest: 'Site inspection' },
@@ -411,51 +554,148 @@ export const legal = {
 
 /* ── 11 Proof from the farm ────────────────────────────────────────── */
 
+/**
+ * One of the owner's own clips, transcoded to 720p H.264 with the sound
+ * track removed (not just muted, scripts in HANDOVER.md) so it can play
+ * inline, silently, while in view.
+ */
+export type FarmClip = {
+  kind: 'clip';
+  id: string;
+  src: string;
+  date: string;
+  poster: Photo;
+};
+
+/** A clip from its file id (public/video/site, poster in images/site/posters). */
+function clip(id: string, date: string, alt: string): FarmClip {
+  return {
+    kind: 'clip',
+    id,
+    src: `/video/site/${id}.mp4`,
+    date,
+    poster: {
+      src: `/images/site/posters/${id}.webp`,
+      alt,
+      width: 1280,
+      height: 720,
+    },
+  };
+}
+
+/** A photo the field log shows, with the camera's file code and the date. */
+function logPhoto(n: string, alt: string, date = '20 Oct 2026'): FieldLogItem {
+  const p = site(n, alt);
+
+  return { kind: 'photo', photo: { ...p, caption: `DJI_${n} · ${date}` } };
+}
+
+export type FieldLogItem = FarmClip | { kind: 'photo'; photo: Photo };
+
 export const proof = {
-  headline: 'See the Work on the Ground.',
-  photos: [
+  headline: ['Photos and video from', 'the site in Osun.'] as Headline,
+  /*
+   * Owner, 22 Nov 2026: no stand-alone photos here. Mix the site photos
+   * (including the hero's), the seedling photo and the silent clips into
+   * one field log. Order is the reading order: motion, wide, close, repeat.
+   */
+  fieldLog: [
+    clip(
+      'dji-0973',
+      '20 Oct 2026',
+      'Slow drone pass over the Palm Grove Estate billboard on cleared land'
+    ),
+    logPhoto(
+      '0952',
+      'Green hills and bush around the Palm Grove Estate site, seen from the drone'
+    ),
     {
-      src: '/images/aerial-site.webp',
-      alt: 'Drone view of green farmland with crop rows, a dirt track, a fence line and farm buildings',
-      width: 1276,
-      height: 718,
-      caption: 'Drone aerial of Jaylead farmland, 17 September 2026',
+      kind: 'photo',
+      photo: {
+        src: '/images/site/seedling-4623.webp',
+        alt: 'A young oil palm seedling, its first fronds opening, newly planted in the grass at Palm Grove Estate',
+        width: 1200,
+        height: 1600,
+        caption: 'Seedling in the ground · 29 Oct 2026',
+      },
     },
-    {
-      src: '/images/office-logo-wall.webp',
-      alt: 'The illuminated Jaylead AgriEstate logo sign on the wall of the Tanke, Ilorin office',
-      width: 720,
-      height: 576,
-      caption: 'Our office, Tanke, Ilorin',
-    },
-  ] satisfies Photo[] as Photo[],
+    logPhoto(
+      '0965',
+      'Drone view of a large cleared plot ringed by thick green vegetation'
+    ),
+    logPhoto(
+      '0941',
+      'A worker in a hi-vis vest crossing cleared land beside the estate billboard'
+    ),
+    clip(
+      'dji-0948',
+      '20 Oct 2026',
+      'Drone footage of a Jaylead staff member at the estate billboard beside banana plants and cleared bush'
+    ),
+    logPhoto(
+      '0971',
+      'The Palm Grove Estate billboard on cleared land against green hills'
+    ),
+    logPhoto(
+      '0969',
+      'Drone view down onto a cleared, pegged plot with a white survey post'
+    ),
+    logPhoto(
+      '0955',
+      'Banana plants at the edge of the cleared land, seen from above'
+    ),
+    logPhoto(
+      '0975',
+      'A surveyor holding a measuring pole on newly cleared ground, from the drone'
+    ),
+    logPhoto(
+      '0956',
+      'A cleared slope on the estate running up to a line of bush and trees'
+    ),
+    logPhoto(
+      '0976',
+      'The estate billboard from the air, with a staff member standing in front of it'
+    ),
+    logPhoto(
+      '0951',
+      'Rolling farmland and bush around Palm Grove Estate, seen from the drone'
+    ),
+  ] satisfies FieldLogItem[] as FieldLogItem[],
   /*
    * Brief §11 asks for a 2 to 3 line MD message. Not supplied yet; this is
-   * his own words from the main site's "Our story" (Instagram reel
-   * DZMkHQTKNWE). Replace with the message once written.
+   * his own words from "Our story" (Instagram reel DZMkHQTKNWE), and the
+   * quote opens that reel (owner, 22 Nov 2026).
    */
   founder: {
     name: 'Adetunji Jacob Ogunyemi',
     role: 'Managing Director',
     quote: 'A personal agenda over time grew to become a collective agenda.',
-    photo: {
-      src: '/images/founder-portrait-suit.webp',
-      alt: 'Adetunji Jacob Ogunyemi, Managing Director of Jaylead AgriEstate',
-      width: 1440,
-      height: 1440,
-    } satisfies Photo,
+    story: {
+      kind: 'reel',
+      shortcode: 'DZMkHQTKNWE',
+      title: 'Our story, told by the founder',
+      duration: '2:53',
+      date: '5 June 2026',
+      poster: {
+        src: '/images/founder-portrait-agbada.webp',
+        alt: 'Adetunji Jacob Ogunyemi in a green kaftan, outdoors by palm trees',
+        width: 1440,
+        height: 1440,
+      },
+    } satisfies Reel,
+    instagram: founderInstagram,
   },
-  /* Brief §11: real testimonials only. None yet, so the block is omitted. */
-  testimonials: [] as { quote: string; name: string; place: string }[],
   cta: {
     label: 'Get Pricing & Plot Details',
-    action: { kind: 'pricing' },
+    action: { kind: 'section', target: 'pricing' },
   } satisfies Cta,
 };
 
 /* ── 12 FAQs (one array: accordion, FAQPage JSON-LD and llms.txt) ──── */
 
 export type Faq = { question: string; answer: string; cta: Cta };
+
+export const faqHeadline: Headline = ['What buyers', 'ask us most.'];
 
 export const faqs: Faq[] = [
   {
@@ -471,7 +711,10 @@ export const faqs: Faq[] = [
     question: 'What exactly do I own when I buy a plot?',
     answer:
       'You own the titled land, the oil palm trees planted on it, and a share of the annual harvest proceeds. You also have the right to sell, transfer or inherit your plot.',
-    cta: { label: 'Get Pricing & Plot Details', action: { kind: 'pricing' } },
+    cta: {
+      label: 'Get Pricing & Plot Details',
+      action: { kind: 'section', target: 'pricing' },
+    },
   },
   {
     question: 'How much does a plot cost and can I pay in instalments?',
@@ -498,7 +741,10 @@ export const faqs: Faq[] = [
     question: 'Are there any annual or maintenance fees?',
     answer:
       'No. There are no annual fees and no maintenance fees. Jaylead plants, farms and manages the estate. The 30% management share is the only deduction from harvest revenue.',
-    cta: { label: 'Get Pricing & Plot Details', action: { kind: 'pricing' } },
+    cta: {
+      label: 'Get Pricing & Plot Details',
+      action: { kind: 'section', target: 'pricing' },
+    },
   },
   {
     question: 'Which documents will I receive?',
@@ -525,7 +771,10 @@ export const faqs: Faq[] = [
     question: 'How will I know how the estate and my income are doing?',
     answer:
       'You receive quarterly reports from day one and audited annual statements from the first harvest. You are also free to bring your own personal auditor.',
-    cta: { label: 'Get Pricing & Plot Details', action: { kind: 'pricing' } },
+    cta: {
+      label: 'Get Pricing & Plot Details',
+      action: { kind: 'section', target: 'pricing' },
+    },
   },
   {
     question: 'Can I buy from outside Nigeria?',
@@ -540,16 +789,19 @@ export const faqs: Faq[] = [
     question: 'How do I get started?',
     answer:
       'Fill in the short form or message us on WhatsApp. An advisor will contact you, help you choose a plot size, and guide you through the deposit and your documents.',
-    cta: { label: 'Get Pricing & Plot Details', action: { kind: 'pricing' } },
+    cta: {
+      label: 'Get Pricing & Plot Details',
+      action: { kind: 'section', target: 'pricing' },
+    },
   },
 ];
 
 /* ── 13 Final CTA ──────────────────────────────────────────────────── */
 
 export const finalCta = {
-  headline: 'Your Money Can Farm While You Sleep.',
-  line: 'Tell us where to send your plot prices, payment plan and details.',
-  below: 'No spam. An advisor will contact you shortly.',
+  headline: ['Reserve your plot at the', 'pre-launch price.'] as Headline,
+  line: 'Leave your details and an advisor will send the plot prices and payment plan to your WhatsApp.',
+  below: 'No spam. One advisor, one conversation about your plot.',
   badges: [
     'CAC RC 9492571',
     'SCUML Certified',
@@ -572,7 +824,7 @@ export const footer = {
 /* ── 15 Thank-you ──────────────────────────────────────────────────── */
 
 export const thankYou = {
-  headline: 'Thank you. We have received your details.',
+  headline: ['Thank you.', 'We have received your details.'] as Headline,
   next: 'An advisor will contact you shortly on WhatsApp or by phone to help you choose a plot and answer your questions.',
   whatsappLabel: 'Chat with an Advisor on WhatsApp now',
   inspectionLabel: 'Book a Site Inspection',

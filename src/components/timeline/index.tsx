@@ -12,21 +12,15 @@ export function Timeline() {
   return (
     <section
       aria-labelledby="timeline-title"
-      className="bg-bone-deep py-20 sm:py-28"
+      className="bg-bone-deep py-24 sm:py-32 lg:py-40"
     >
       <Container>
         <SectionHead
-          entry="06"
           label="How it works"
           id="timeline-title"
-          title={
-            <>
-              From Deposit to Harvest:{' '}
-              <span className="em-oil">What Happens and When.</span>
-            </>
-          }
+          title={timeline.headline}
         />
-        <ol className="before:bg-ink/25 relative mt-14 before:absolute before:top-2 before:bottom-2 before:left-[0.4375rem] before:w-px md:before:left-[calc(33%+0.4375rem)]">
+        <ol className="before:bg-ink/25 relative mt-14 before:absolute before:top-2 before:bottom-2 before:left-[0.4375rem] before:w-px sm:mt-20 md:before:left-[calc(33%+0.4375rem)]">
           {timeline.phases.map((p) => (
             <li
               key={p.phase}
@@ -35,7 +29,7 @@ export function Timeline() {
             >
               <span
                 aria-hidden="true"
-                className="bg-oil ring-bone-deep absolute top-2 left-0 size-[0.9375rem] rounded-full ring-4 md:left-[33%]"
+                className="bg-moss ring-bone-deep absolute top-2 left-0 size-[0.9375rem] rounded-full ring-4 md:left-[33%]"
               />
               <div className="md:pr-10 md:text-right">
                 <p className="micro text-stone">{p.phase}</p>
@@ -45,7 +39,7 @@ export function Timeline() {
             </li>
           ))}
         </ol>
-        <CtaLink cta={timeline.cta} className="mt-14" />
+        <CtaLink cta={timeline.cta} className="mt-16 sm:mt-20" />
       </Container>
     </section>
   );

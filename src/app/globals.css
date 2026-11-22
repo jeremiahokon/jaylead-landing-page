@@ -1,54 +1,55 @@
 @import 'tailwindcss';
 
 /*
- * Palm Grove Estate landing page. Concept: "one entry in the register: your
- * plot". The main site's "cinematic land register" (../jaylead.ng
- * docs/design-direction.md), watered down for a phone on mobile data: the
- * same bone paper, logo-green ink (no black anywhere), heavy slab figures and
- * the logo's sun as the one accent. Ledger rules and numbered entries replace
- * the main site's 3D scenes. Motion tier: css (no JS animation runtime).
+ * Palm Grove Estate landing page. Concept: "your plot, on the ground". The
+ * Jaylead brand system from the Figma file ("Jayleads", green identity):
+ * Sansita One headers, Figtree subtext. Three colours, no more (owner,
+ * 22 Nov 2026): deep green #033726 for text and dark bands, logo green
+ * #006847 for links and buttons on white, and orange #FF8D30 as the single
+ * accent, kept to calls to action, prices and emphasis. Greys and tints are
+ * mixed from the deep green. Motion tier: css (no JS animation runtime).
  *
- * Contrast ratios are WCAG, computed against the token named (carried from
- * the main site, same values).
+ * Orange rule (owner, 22 Nov 2026): #FF8D30 is 1.9:1 on white, so it is
+ * never text on a light ground. On dark bands it is text, emphasis and the
+ * button fill; on light grounds it is an underline swash or a fill behind
+ * green text. Contrast ratios are WCAG, against the token named.
  */
 @theme {
-  --color-bone: #f1ecdf; /* page ground */
-  --color-bone-deep: #e6dfcd; /* alternate bands */
-  --color-ink: #0d3924; /* logo green-900: text + dark bands. 10.9:1 on bone */
-  --color-ink-deep: #0a2e1d; /* footer, one step under ink */
-  --color-moss: #046647; /* logo green-700: hover. 5.9:1 on bone */
-  --color-stone: #55655a; /* secondary text. 5.2:1 on bone, 4.7:1 on bone-deep */
-  --color-sand: #c9d3c4; /* secondary text on ink. 8.4:1 */
-  --color-mist: #9fb3a4; /* captions on ink. 5.8:1 */
-  /* The one accent. Italic emphasis and focus on light. Never a big fill. */
-  --color-oil: #a63d17; /* palm-oil orange. 5.4:1 on bone */
-  --color-sun: #fdcb32; /* the logo's gold, on ink only. 8.5:1 */
-  --color-alert: #a3261b; /* form errors. 6.2:1 on bone */
-  --color-alert-light: #ffb4a6; /* form errors on ink. 7.9:1 */
-  --color-rule: color-mix(in oklab, #0d3924 18%, transparent);
-  --color-rule-light: color-mix(in oklab, #f1ecdf 22%, transparent);
+  --color-bone: #fbfcfb; /* page ground, white tinted toward the deep green */
+  --color-bone-deep: #f3f6f4; /* 5% deep green on white: alternate bands */
+  --color-ink: #033726; /* brand deep green: text + dark bands. 13.4:1 on white */
+  --color-ink-deep: #022a1d; /* footer, one step under ink */
+  --color-moss: #006847; /* brand logo green: emphasis + hover. 6.9:1 on white */
+  --color-stone: #4a6156; /* secondary text. 6.6:1 on white, 6.4:1 on mint */
+  --color-sand: #c9d4cf; /* deep green tint: secondary text on ink. 9.4:1 */
+  --color-oil: #ff8d30; /* brand orange. 5.7:1 on ink; never text on light */
+  --color-alert: #a3261b; /* form errors. 7.0:1 on white */
+  --color-alert-light: #ffb4a6; /* form errors on ink. 8.2:1 */
+  --color-rule: color-mix(in oklab, #033726 16%, transparent);
+  --color-rule-light: color-mix(in oklab, #ffffff 22%, transparent);
 
-  --font-display: var(--font-slab), 'Rockwell', Georgia, serif;
-  --font-sans: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
+  /* Sansita One has no naira sign: the stack hands that glyph to Figtree. */
+  --font-display: var(--font-sansita), var(--font-figtree), Georgia, serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 
   /* One idea at size: the hero and the 70/30 figure. Everything else modest. */
   /* Desktop cap lowered from 7.25rem (owner, 18 Nov 2026: too large); at
      this size each sentence of the headline holds one line beside the photo. */
-  --text-hero: clamp(2.75rem, 5.2vw, 4.75rem);
-  --text-hero--line-height: 0.94;
-  --text-hero--letter-spacing: -0.035em;
+  --text-hero: clamp(2.5rem, 4.6vw, 4.25rem);
+  --text-hero--line-height: 1;
+  --text-hero--letter-spacing: -0.012em;
   --text-giant: clamp(6rem, 26vw, 17rem);
-  --text-giant--line-height: 0.8;
-  --text-giant--letter-spacing: -0.05em;
+  --text-giant--line-height: 0.85;
+  --text-giant--letter-spacing: -0.03em;
   --text-display: clamp(2.125rem, 5.2vw, 4.25rem);
-  --text-display--line-height: 1.02;
-  --text-display--letter-spacing: -0.025em;
+  --text-display--line-height: 1.06;
+  --text-display--letter-spacing: -0.008em;
   --text-figure: clamp(2.5rem, 6.4vw, 5rem);
-  --text-figure--line-height: 0.95;
-  --text-figure--letter-spacing: -0.03em;
+  --text-figure--line-height: 1;
+  --text-figure--letter-spacing: -0.015em;
   --text-title: clamp(1.375rem, 2.2vw, 1.75rem);
   --text-title--line-height: 1.15;
-  --text-title--letter-spacing: -0.01em;
+  --text-title--letter-spacing: 0em;
   --text-lede: clamp(1.125rem, 1.5vw, 1.3125rem);
   --text-lede--line-height: 1.55;
   --text-body: 1.0625rem;
@@ -112,17 +113,17 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-oil);
+    outline: 2px solid var(--color-moss);
     outline-offset: 4px;
   }
 
   .on-ink :focus-visible {
-    outline-color: var(--color-sun);
+    outline-color: var(--color-oil);
   }
 
   ::selection {
     background: var(--color-oil);
-    color: var(--color-bone);
+    color: var(--color-ink);
   }
 
   summary {
@@ -141,21 +142,39 @@
   }
 }
 
-/* Bespoke Slab ships one weight (700) per style; lining figures for prices. */
+/*
+ * Sansita One ships one weight. 800 + no synthesis: Sansita renders as drawn
+ * (never faux-bolded) while the naira sign, which falls back to Figtree,
+ * comes out ExtraBold to sit with the heavy figures.
+ */
 @utility font-display {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
+  font-synthesis: none;
   font-variant-numeric: lining-nums proportional-nums;
 }
 
-/* Italic emphasis inside display type, in the logo's sun colours. */
+/*
+ * Emphasis inside display type. On light grounds: logo green over an orange
+ * swash (orange is never text there). On dark bands: orange text.
+ */
 @utility em-oil {
-  font-style: italic;
-  color: var(--color-oil);
+  color: var(--color-moss);
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-oil);
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.14em;
+  text-decoration-skip-ink: none;
 
   .on-ink & {
-    color: var(--color-sun);
+    color: var(--color-oil);
+    text-decoration: none;
   }
+}
+
+/* The page's green field behind media before it decodes. */
+@utility media-field {
+  background-image: radial-gradient(120% 90% at 30% 20%, #006847, #033726);
 }
 
 @utility tabular {
@@ -221,7 +240,7 @@
   }
 
   .on-ink & {
-    background: var(--color-sun);
+    background: var(--color-oil);
     color: var(--color-ink);
 
     @media (hover: hover) {
@@ -293,15 +312,15 @@
 }
 
 /*
- * The hero's line masks. overflow:hidden is what makes the rise work, but at
- * line-height 0.94 a tight box clips descenders (g, y, p) and the slab
- * italic's right overhang. The padding gives the glyphs room on every side;
- * the equal negative margin keeps the layout exactly where it was.
+ * The hero's line masks. overflow:hidden is what makes the rise work, but a
+ * tight box would clip descenders (g, y, p) and the orange swash under the
+ * emphasised line. The padding gives them room; the equal negative margin
+ * keeps the layout exactly where it was.
  */
 .mask-line {
   overflow: hidden;
-  padding: 0.04em 0.18em 0.2em 0.06em;
-  margin: -0.04em -0.18em -0.2em -0.06em;
+  padding: 0.04em 0.08em 0.3em 0.04em;
+  margin: -0.04em -0.08em -0.3em -0.04em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -328,6 +347,33 @@
       animation-range: entry 0% entry 55%;
     }
 
+    /*
+     * Field log (section 11): tiles drift at three speeds as the section
+     * passes, so the masonry's columns slide against each other. Only from
+     * tablet up; phones keep a still grid.
+     */
+    @media (min-width: 64rem) {
+      .drift-1,
+      .drift-2,
+      .drift-3 {
+        animation: drift linear both;
+        animation-timeline: view();
+        animation-range: cover;
+      }
+
+      .drift-1 {
+        --drift: 1.5rem;
+      }
+
+      .drift-2 {
+        --drift: -2.5rem;
+      }
+
+      .drift-3 {
+        --drift: 4rem;
+      }
+    }
+
     /* Signature: the 70/30 split draws itself as it scrolls into view. */
     .split-fill {
       animation: split-grow linear both;
@@ -340,6 +386,15 @@
 @keyframes settle {
   from {
     transform: translateY(1.5rem);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(var(--drift, 0));
+  }
+  to {
+    transform: translateY(calc(var(--drift, 0) * -1));
   }
 }
 
@@ -365,22 +420,6 @@
   transform: rotate(45deg);
 }
 
-/* Projection: the acre/hectare toggle is two radios, no JS. */
-.projection:has(#proj-acre:checked) [data-plot='hectare'],
-.projection:has(#proj-hectare:checked) [data-plot='acre'] {
-  display: none;
-}
-
-.projection label:has(input:checked) {
-  background: var(--color-ink);
-  color: var(--color-bone);
-}
-
-.projection label:has(input:focus-visible) {
-  outline: 2px solid var(--color-oil);
-  outline-offset: 3px;
-}
-
 /* Native dialog */
 dialog.lead-dialog {
   margin: auto;
@@ -395,8 +434,15 @@ dialog.lead-dialog {
   border-radius: var(--radius-card);
 }
 
+/* Open dialogs are a column: header and footer fixed, the body scrolls. */
+dialog.lead-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 dialog.lead-dialog::backdrop {
-  background: color-mix(in oklab, #0a2e1d 72%, transparent);
+  background: color-mix(in oklab, var(--color-ink-deep) 72%, transparent);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -444,6 +490,12 @@ dialog.reel-dialog {
   overscroll-behavior: contain;
 }
 
+dialog.reel-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 dialog.reel-dialog::backdrop {
   background: color-mix(in oklab, var(--color-ink) 94%, transparent);
 }
@@ -479,4 +531,21 @@ html:has(dialog.reel-dialog[open]) {
   text-decoration: underline;
   text-decoration-color: var(--color-oil);
   text-underline-offset: 0.22em;
+}
+
+/* A list number on a light ground: brand orange as the fill, green figure. */
+@utility num-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background: var(--color-moss);
+  color: var(--color-bone);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-synthesis: none;
+  font-size: 0.9375rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
 }

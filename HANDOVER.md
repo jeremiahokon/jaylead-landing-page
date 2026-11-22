@@ -68,3 +68,47 @@ Nothing has been invented to fill them; every section renders complete without t
   that page stays free of forms.
 - Critical path at build: about 278 KB gzip (HTML with inlined CSS 59 KB, JS 188 KB, three
   fonts 30 KB), plus the hero image.
+
+## Revision 1 (owner feedback, 22 Nov 2026)
+
+Done:
+
+- Brand type and colour from the Figma file "Jayleads" (green identity, frame 21): Sansita One headers
+  (self-hosted, `src/fonts/sansita-one.woff2`, OFL), Figtree text, and the brand colours only:
+  #033726, #006847, #02AD4D, #FFCB30, #FF8D30, on white and #EEFFFA. Orange is never text on a light
+  ground (1.9:1); there it is an underline swash or a fill. Sansita One has no ₦, so the display
+  stack hands that glyph to Figtree ExtraBold.
+- "Entry 0X" labels removed; each section keeps its own name.
+- Hero: DJI_0945 plus nine site photos as a carousel (`src/components/hero/carousel.tsx`).
+  Secondary button now "Watch: Palm Grove Explained".
+- Every "Get Pricing & Plot Details" now scrolls to the pre-launch prices (`#pricing`); the form
+  opens from "Reserve This Plot" or "Talk to an Advisor" there.
+- Form: plot prices shown in the interest dropdown (submitted values unchanged); button
+  "Submit My Request".
+- Seedlings: four @jaylead_ng reels (posters are frames from each reel).
+- Proof from the farm: a mixed photo + silent video field log with a lightbox. The founder quote
+  opens reel DZMkHQTKNWE; @jaylead5 is linked and in the JSON-LD `sameAs`.
+- Projection: the owner's Year 3 to 10 table for 1 hectare, also in llms.txt.
+- Share cards re-rendered with the new fonts, colours and the site billboard photo.
+
+Assets: photos come from the Drive folder "Site- planting" and are converted to 1600px WebP with
+EXIF/GPS stripped (`magick in.jpg -auto-orient -strip -resize '1600x1600>' -quality 68 out.webp`).
+Clips are converted with
+`ffmpeg -i in -an -vf scale=1280:-2 -c:v libx264 -crf 26 -maxrate 2200k -movflags +faststart`
+and have no audio stream.
+
+Open:
+
+- **Seedling videos IMG_4317, 4301, 4319, 4321.** The Drive folder is not shared with the build
+  account. When the files arrive, transcode them as above into `public/video/site/`, add them to
+  `clips` in `src/data/palm-grove.ts`, then put 4317 and 4301 first in `seedlings.media` and all
+  four into `proof.fieldLog`.
+- **Per-acre projection.** The workbook covers 1 hectare only; confirm the per-acre basis first.
+- **Brochure video.** "Watch: Palm Grove Explained" still lands on the 14-second aerial fallback
+  until the YouTube ID is supplied.
+
+### Revision 1b (22 Nov 2026): copy, whitespace, three colours
+
+- Copy rewritten in plain voice; no em/en dashes, no "Not just X. It is Y." patterns. Owner-specified labels kept verbatim.
+- Section padding raised to py-24 / sm:py-32 / lg:py-40, larger gaps after section heads.
+- Palette cut to three colours: #033726 (text, dark bands), #006847 (buttons and links on light, number badges), #FF8D30 (single accent: CTAs on dark bands, prices, headline emphasis, play buttons). Greys and tints are mixed from #033726. Leaf #02AD4D, sun #FFCB30 and mint #B6FFD6/#EEFFFA removed.

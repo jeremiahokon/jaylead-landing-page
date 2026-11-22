@@ -64,42 +64,44 @@ export function ReelPlayer({
           if (e.target === e.currentTarget) close();
         }}
       >
-        <div className="flex flex-col items-end gap-3 p-2">
+        <div className="flex max-h-[100dvh] min-h-0 flex-col items-end gap-3 p-2">
           <button
             type="button"
             onClick={close}
-            className="micro text-bone min-h-11 px-2 underline underline-offset-4"
+            className="micro text-bone min-h-11 flex-none px-2 underline underline-offset-4"
           >
             Close
           </button>
-          <div className="reel-frame bg-bone rounded-card relative overflow-hidden">
-            {open ? (
-              <iframe
-                src={embedUrl}
-                title={`Instagram video: ${label}`}
-                className="absolute inset-0 size-full border-0"
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write"
-                allowFullScreen
-                onLoad={(e) => {
-                  clearTimeout(timer.current);
-                  setSlow(false);
-                  e.currentTarget.focus();
-                }}
-              />
-            ) : null}
-            {slow ? (
-              <p className="bg-bone/95 text-ink text-small absolute inset-x-0 bottom-0 p-4">
-                Couldn’t load the video.{' '}
-                <a
-                  href={permalink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-under"
-                >
-                  Watch it on Instagram
-                </a>
-              </p>
-            ) : null}
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+            <div className="reel-frame bg-bone rounded-card relative overflow-hidden">
+              {open ? (
+                <iframe
+                  src={embedUrl}
+                  title={`Instagram video: ${label}`}
+                  className="absolute inset-0 size-full border-0"
+                  allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write"
+                  allowFullScreen
+                  onLoad={(e) => {
+                    clearTimeout(timer.current);
+                    setSlow(false);
+                    e.currentTarget.focus();
+                  }}
+                />
+              ) : null}
+              {slow ? (
+                <p className="bg-bone/95 text-ink text-small absolute inset-x-0 bottom-0 p-4">
+                  Couldn’t load the video.{' '}
+                  <a
+                    href={permalink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-under"
+                  >
+                    Watch it on Instagram
+                  </a>
+                </p>
+              ) : null}
+            </div>
           </div>
         </div>
       </dialog>

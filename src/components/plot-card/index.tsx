@@ -25,9 +25,9 @@ export function PlotCard({ plot }: { plot: Plot }) {
         <h3 id={`plot-${plot.id}`} className="font-display text-title">
           {plot.size}
         </h3>
-        <p className="micro text-mist">Pre-launch price</p>
+        <p className="micro text-sand">Pre-launch price</p>
       </div>
-      <p className="font-display text-figure text-sun tabular mt-6">
+      <p className="font-display text-figure text-oil tabular mt-6">
         {naira(plot.price)}
       </p>
       <dl className="border-rule-light mt-8 border-t">
@@ -41,11 +41,11 @@ export function PlotCard({ plot }: { plot: Plot }) {
           </div>
         ))}
       </dl>
-      <p className="micro text-mist mt-7">Each plot includes</p>
+      <p className="micro text-sand mt-7">Each plot includes</p>
       <ul className="text-small text-sand mt-3 grid gap-2">
         {pricing.includes.map((x) => (
           <li key={x} className="flex gap-3">
-            <span aria-hidden="true" className="text-sun">
+            <span aria-hidden="true" className="text-sand">
               ✓
             </span>
             {x}

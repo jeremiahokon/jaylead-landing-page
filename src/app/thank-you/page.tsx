@@ -11,6 +11,7 @@ import type { Metadata } from 'next';
 import { Container } from '@/components/container';
 import { WhatsAppIcon } from '@/components/icons';
 import { Logo } from '@/components/logo';
+import { Emphasis } from '@/components/section-head';
 import { ThankYouActions } from '@/components/thank-you-actions';
 
 import { buildWhatsAppLink } from '@/lib/whatsapp';
@@ -47,8 +48,7 @@ export default function ThankYouPage() {
         <Logo />
         <p className="micro text-stone mt-16">Palm Grove Estate · Osun State</p>
         <h1 className="font-display text-display mt-5">
-          Thank you.{' '}
-          <span className="em-oil">We have received your details.</span>
+          <Emphasis headline={thankYou.headline} />
         </h1>
         <p className="text-lede mt-6">{thankYou.next}</p>
 
