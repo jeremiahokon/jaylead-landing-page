@@ -1,103 +1,114 @@
 'use client';
 
-import { Children, type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
+
+import Autoplay from 'embla-carousel-autoplay';
+import Fade from 'embla-carousel-fade';
+import useEmblaCarousel from 'embla-carousel-react';
 
 import { cn } from '@/lib/utils';
 
-const INTERVAL = 5000;
+const DELAY = 6000;
 
 /**
- * The hero's site photos. Each slide is rendered on the server and passed in
- * as children; this leaf only decides which one shows. Slide 1 (DJI_0945) is
- * the only visible one in the server HTML, so without JavaScript the hero is
- * one complete photo. Autoplay cross-fades every 5 s, pauses while hovered,
- * focused or in a background tab, and never starts under reduced motion.
+ * The hero frame: Embla (the engine behind shadcn's carousel) cross-fading
+ * the site photos behind server-rendered copy (children). One progress bar
+ * per photo; the active one fills over the autoplay delay. Hover pauses
+ * (and restarts the bar with the timer); reduced motion stops autoplay.
+ * Without JavaScript the first photo shows on its own.
  */
 export function HeroCarousel({
-  children,
+  slides,
   labels,
-  className,
+  children,
 }: {
-  children: ReactNode;
-  /** One short name per slide, for the dot buttons. */
+  slides: ReactNode[];
+  /** One short name per photo, for the controls. */
   labels: string[];
-  className?: string;
+  children: ReactNode;
 }) {
-  const slides = Children.toArray(children);
-  const count = slides.length;
+  const [ref, api] = useEmblaCarousel({ loop: true, duration: 40 }, [
+    Fade(),
+    Autoplay({
+      delay: DELAY,
+      stopOnMouseEnter: true,
+      stopOnInteraction: false,
+    }),
+  ]);
+
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
+  const count = slides.length;
+  const pad = (n: number) => String(n).padStart(2, '0');
 
   useEffect(() => {
-    if (paused || count < 2) return;
+    if (!api) return;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const onSelect = () => setIndex(api.selectedScrollSnap());
 
-    const id = setInterval(() => {
-      if (document.visibilityState === 'visible')
-        setIndex((i) => (i + 1) % count);
-    }, INTERVAL);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      api.plugins().autoplay?.stop();
 
-    return () => clearInterval(id);
-  }, [paused, count]);
+    api.on('select', onSelect);
 
-  const go = (i: number) => setIndex((i + count) % count);
+    return () => {
+      api.off('select', onSelect);
+    };
+  }, [api]);
 
   return (
     <div
-      ref={root}
       role="group"
       aria-roledescription="carousel"
       aria-label="Photos from the Palm Grove Estate site"
-      className={className}
+      data-paused={paused || undefined}
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={(e) => {
-        if (!root.current?.contains(e.relatedTarget as Node | null))
-          setPaused(false);
-      }}
+      className="hero-frame on-photo rounded-card bg-ink relative isolate mx-auto w-[90vw] overflow-hidden lg:grid lg:min-h-[min(calc(100svh-var(--header-h)-2.5rem),58rem)]"
     >
-      <div className="relative">
-        {slides.map((slide, i) => (
-          <div
-            key={i}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${i + 1} of ${count}`}
-            aria-hidden={i === index ? undefined : true}
-            className={cn(
-              'transition-opacity duration-1000 ease-(--ease-out-expo)',
-              i === 0 ? 'relative' : 'absolute inset-0',
-              i === index ? 'opacity-100' : 'pointer-events-none opacity-0'
-            )}
-          >
-            {slide}
+      {/* Phones: the photo on top, copy below. Desktop: the photo fills the frame. */}
+      <div className="media-field relative h-[46svh] min-h-72 lg:absolute lg:inset-0 lg:-z-10 lg:h-auto">
+        <div ref={ref} className="absolute inset-0 overflow-hidden">
+          <div className="flex h-full">
+            {slides.map((slide, i) => (
+              <div
+                key={i}
+                aria-hidden={i === index ? undefined : true}
+                className="relative h-full min-w-0 flex-[0_0_100%]"
+              >
+                {slide}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+        <div
+          aria-hidden="true"
+          className="from-ink/85 absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t to-transparent"
+        />
+        <div
+          aria-hidden="true"
+          className="from-ink/95 via-ink/65 absolute inset-0 hidden bg-linear-to-r to-transparent lg:block"
+        />
 
-      {count > 1 ? (
-        <div className="mt-4 flex items-center justify-between gap-4">
-          <ol className="flex flex-wrap sm:gap-1" aria-label="Choose a photo">
+        <div className="text-bone absolute inset-x-0 bottom-0 grid gap-2 px-4 pb-4 sm:px-8 sm:pb-6 lg:px-14 lg:pb-12">
+          <ol className="flex gap-1.5" aria-label="Choose a photo">
             {slides.map((_, i) => (
-              <li key={i}>
+              <li key={i} className="flex-1">
                 <button
                   type="button"
-                  onClick={() => go(i)}
+                  onClick={() => api?.scrollTo(i)}
                   aria-current={i === index ? 'true' : undefined}
-                  className="group grid size-5 place-items-center sm:size-6"
+                  className="block w-full py-2"
                 >
-                  <span
-                    aria-hidden="true"
-                    className={cn(
-                      'block h-1.5 rounded-full transition-all duration-500',
-                      i === index
-                        ? 'bg-moss w-5'
-                        : 'bg-ink/25 group-hover:bg-ink/50 w-1.5'
-                    )}
-                  />
+                  <span className="bg-bone/30 block h-[3px] overflow-hidden rounded-full">
+                    <span
+                      key={i === index ? `on-${index}-${paused}` : i}
+                      className={cn(
+                        'bg-oil block h-full origin-left',
+                        i === index ? 'hero-bar' : 'scale-x-0'
+                      )}
+                    />
+                  </span>
                   <span className="sr-only">
                     Photo {i + 1}: {labels[i]}
                   </span>
@@ -105,26 +116,40 @@ export function HeroCarousel({
               </li>
             ))}
           </ol>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => go(index - 1)}
-              className="ring-rule hover:bg-ink hover:text-bone grid size-10 place-items-center rounded-full ring-1 transition-colors"
-            >
-              <span aria-hidden="true">←</span>
-              <span className="sr-only">Previous photo</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => go(index + 1)}
-              className="ring-rule hover:bg-ink hover:text-bone grid size-10 place-items-center rounded-full ring-1 transition-colors"
-            >
-              <span aria-hidden="true">→</span>
-              <span className="sr-only">Next photo</span>
-            </button>
+          <div className="flex items-center justify-between gap-4">
+            <p className="micro text-sand min-w-0 truncate" aria-live="polite">
+              <span className="tabular text-bone">
+                {pad(index + 1)} / {pad(count)}
+              </span>
+              <span className="hidden sm:inline"> · {labels[index]}</span>
+            </p>
+            <div className="flex shrink-0 gap-2">
+              {[
+                {
+                  glyph: '←',
+                  name: 'Previous photo',
+                  go: () => api?.scrollPrev(),
+                },
+                { glyph: '→', name: 'Next photo', go: () => api?.scrollNext() },
+              ].map((b) => (
+                <button
+                  key={b.name}
+                  type="button"
+                  onClick={b.go}
+                  className="ring-bone/40 bg-ink/40 hover:bg-bone hover:text-ink grid size-11 place-items-center rounded-full ring-1 transition-colors"
+                >
+                  <span aria-hidden="true">{b.glyph}</span>
+                  <span className="sr-only">{b.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      ) : null}
+      </div>
+
+      <div className="text-bone relative max-w-4xl px-6 pt-8 pb-9 sm:p-10 lg:self-end lg:px-14 lg:pt-14 lg:pb-44">
+        {children}
+      </div>
     </div>
   );
 }

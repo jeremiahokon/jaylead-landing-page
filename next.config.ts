@@ -10,7 +10,9 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    formats: ['image/avif', 'image/webp'], // first Accept match wins
+    // WebP only: the sources are WebP already, and AVIF encoding is slow
+    // enough to stall first requests (it hung the dev server).
+    formats: ['image/webp'],
     // The largest source photo is 1440px wide (most are 1276px), so the
     // default 1920/2048/3840 rungs could never return anything bigger.
     deviceSizes: [640, 750, 828, 1080, 1280],
